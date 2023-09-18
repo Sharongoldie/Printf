@@ -6,7 +6,7 @@
  * Description: This function call the get_print() function that
  * will determine which printing function to call depending on the conversion
  * specifiers contained into fmt
- * Return: Number of characters printed (excludinf NULL byte used ti end out
+ * Return: Number of characters printed (excluding NULL byte used to end out
  * or -1 if error occurs
  */
 
