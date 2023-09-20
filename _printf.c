@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+/* Declaration of _putchar function */
+int _putchar(char c);
+
 /**
  * _printf - produces custom printf function
  * @format: format string containing the characters and specifiers
@@ -28,7 +31,9 @@ int _printf(const char *format, ...)
             char spec = *format;
 
             if (spec == '\0')
-                break;
+            {
+                break; /* In case of '%' at the end of the format string */
+            }
 
             if (spec == 'c')
             {
@@ -78,6 +83,5 @@ int main(void)
 {
     int num_chars = _printf("Hello, %s! This is a %c example: %%%c\n", "world", 'C', 'A');
     printf("\nTotal characters printed: %d\n", num_chars);
-    return (0);
+    return 0;
 }
-
