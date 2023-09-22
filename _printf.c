@@ -1,87 +1,94 @@
-#include "main.h"
-#include <stdio.h>
-#include <stdarg.h>
+#ifndef MAIN_H
+#define MAIN_H
 
-/* Declaration of _putchar function */
-int _putchar(char c);
+#include <stdarg.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+int _printf(const char *format, ...);
+
+#endif /* MAIN_H */
+
+#include "main.h"
 
 /**
- * _printf - produces custom printf function
- * @format: format string containing the characters and specifiers
- *
- * Description: This function calls the get_print() function that
- * will determine which printing function to call depending on the conversion
- * specifiers contained in fmt.
- *
- * Return: Number of characters printed (excluding NULL byte used to end output)
- * or -1 if an error occurs
+ * _putchar - Custom putchar function
+ * @c: The character to print
+ * Return: On success 1. On error -1 and errno set appropriately.
  */
-int _printf(const char *format, ...)
+
+int _putchar(char c)
+
 {
-    va_list args;
-    va_start(args, format);
-
-    int count = 0; /* Count of characters printed */
-
-    while (*format)
-    {
-        if (*format == '%')
-        {
-            format++;
-            char spec = *format;
-
-            if (spec == '\0')
-            {
-                break; /* In case of '%' at the end of the format string */
-            }
-
-            if (spec == 'c')
-            {
-                /* Handle %c for characters in ASCII */
-                char ch = va_arg(args, int); /* Promote char to int in varargs */
-                _putchar(ch);
-                count++;
-            }
-            else if (spec == 's')
-            {
-                /* Handle %s (string) */
-                char *str = va_arg(args, char *);
-                while (*str)
-                {
-                    _putchar(*str);
-                    str++;
-                    count++;
-                }
-            }
-            else if (spec == '%')
-            {
-                /* Handle the percentage (%%) character */
-                _putchar('%');
-                count++;
-            }
-        }
-        else
-        {
-            /* Print any character that's valid */
-            _putchar(*format);
-            count++;
-        }
-
-        format++;
-    }
-
-    va_end(args);
-    return count;
+	return (write(1, &c, 1));
 }
 
 /**
- * main - Entry point
- *
- * Return: Always 0 (Success)
+ * _printf - Custom printf function
+ * @format: The format string
+ * Return: Number of characters printed
  */
-int main(void)
+
+int _printf(const char *format, ...)
+
 {
-    int num_chars = _printf("Hello, %s! This is a %c example: %%%c\n", "world", 'C', 'A');
-    printf("\nTotal characters printed: %d\n", num_chars);
-    return 0;
+
+	va_list args;
+	int count = 0;
+	char *str;
+
+	va_start(args, format);
+
+	while (format && *format)
+	  {
+
+	  if (*format != '%')
+	    {
+	_putchar(*format);
+	count++;
+	}
+
+else
+
+{
+	format++;
+	switch (*format)
+	  {
+
+	case 'c':
+		_putchar(va_arg(args, int));
+		count++;
+			break;
+
+	case 's':
+		str = va_arg(args, char *);
+	if (str == NULL)
+		str = "(null)";
+			while (*str)
+			  {
+
+			_putchar(*str);
+			count++;
+			str++;
+			}
+			break;
+
+		case '%':
+			_putchar('%');
+			count++;
+			break;
+
+		default:
+			_putchar('%');
+			_putchar(*format);
+			count += 2;
+		}
+	}
+
+	format++;
+	}
+
+	va_end(args);
+
+	return (count);
 }
